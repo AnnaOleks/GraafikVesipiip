@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true"/>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<data name="Title_Calendar" xml:space="preserve">
+    <value>Календарь</value>
+  </data>
+	<data name="MonthFormat" xml:space="preserve">
+    <value>{0:MMMM yyyy}</value>
+  </data>
+	<data name="Week_E" xml:space="preserve"><value>П</value></data>
+	<data name="Week_T" xml:space="preserve"><value>В</value></data>
+	<data name="Week_K" xml:space="preserve"><value>С</value></data>
+	<data name="Week_N" xml:space="preserve"><value>Ч</value></data>
+	<data name="Week_R" xml:space="preserve"><value>П</value></data>
+	<data name="Week_L" xml:space="preserve"><value>С</value></data>
+	<data name="Week_P" xml:space="preserve"><value>В</value></data>
+</root>

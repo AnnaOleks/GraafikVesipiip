@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:GraafikVesipiip"
+    xmlns:conv="clr-namespace:GraafikVesipiip.Converters"
+    x:Class="GraafikVesipiip.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- твои словари стилей/цветов остаются -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 🔹 конвертер, который уже используется в KuuKalenderPage.xaml -->
+            <conv:BoolToColorConverter x:Key="BoolToColor" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

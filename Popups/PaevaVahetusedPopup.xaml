@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="GraafikVesipiip.Popups.PaevaVahetusedPopup">
+
+    <!-- один корневой контейнер -->
+    <VerticalStackLayout Padding="16" Spacing="14" WidthRequest="380">
+
+        <Label x:Name="LblPealkiri" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center" />
+
+        <VerticalStackLayout Spacing="6">
+            <Label Text="Selle päeva vahetused:" FontAttributes="Bold" />
+            <CollectionView x:Name="VahetusteList" HeightRequest="220"
+                            SelectionMode="Single"
+                            SelectionChanged="VahetusteList_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8" Padding="4">
+                            <Border WidthRequest="10" HeightRequest="10" StrokeShape="RoundRectangle 5"
+                                    BackgroundColor="{Binding VarvVoiHall}" />
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Ajaliselt}" />
+                                <Label Text="{Binding TootajaNimi}" FontSize="12" Opacity="0.8"/>
+                            </VerticalStackLayout>
+                            <Button Grid.Column="2" Text="Muuda"   CommandParameter="{Binding .}" Clicked="MuudaNupp_Clicked" />
+                            <Button Grid.Column="3" Text="Kustuta" CommandParameter="{Binding .}" Clicked="KustutaNupp_Clicked" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <BoxView HeightRequest="1" BackgroundColor="#334" />
+
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="8">
+            <Label Grid.Row="0" Grid.Column="0" Text="Töötaja:" VerticalTextAlignment="Center" />
+            <Picker x:Name="TootajaValik" Grid.Row="0" Grid.Column="1" Title="Vali töötaja" ItemDisplayBinding="{Binding Nimi}" />
+
+            <Label Grid.Row="1" Grid.Column="0" Text="Algus:" VerticalTextAlignment="Center" />
+            <TimePicker x:Name="AlgusPicker" Grid.Row="1" Grid.Column="1" />
+
+            <Label Grid.Row="2" Grid.Column="0" Text="Lõpp:" VerticalTextAlignment="Center" />
+            <TimePicker x:Name="LoppPicker" Grid.Row="2" Grid.Column="1" />
+
+            <Grid Grid.Row="3" Grid.ColumnSpan="2" ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
+                <Button x:Name="SalvestaNupp" Grid.Column="0" Text="Salvesta" Clicked="SalvestaNupp_Clicked" />
+                <Button Grid.Column="1" Text="Tühjenda" Clicked="TuhjendaNupp_Clicked" />
+                <Button Grid.Column="2" Text="Sulge" HorizontalOptions="End" Clicked="SulgeNupp_Clicked" />
+            </Grid>
+
+            <Label x:Name="Teade" Grid.Row="4" Grid.ColumnSpan="2" TextColor="#ff6666" FontSize="12" IsVisible="False" />
+        </Grid>
+
+    </VerticalStackLayout>
+</toolkit:Popup>
