@@ -1,10 +1,12 @@
+using GraafikVesipiip.ViewModels;
+
 namespace GraafikVesipiip.Views;
 
-public partial class NewPage1 : ContentPage
+public partial class StartPage : ContentPage
 {
-	public NewPage1()
+	public StartPage(StartPageViewModel vm)
 	{
-		InitializeComponent(StartPageViewModel vm);
+		InitializeComponent();
         BindingContext = vm;
     }
 }

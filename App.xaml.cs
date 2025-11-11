@@ -22,7 +22,7 @@ public partial class App : Application
             ?? throw new InvalidOperationException("Не удалось получить DI-контейнер.");
 
         // Получаем стартовую страницу
-        var startLeht = teenused.GetRequiredService<KuuKalenderPage>();
+        var startLeht = teenused.GetRequiredService<StartPage>();
         var aken = new Window(new NavigationPage(startLeht));
 
         // Асинхронная инициализация БД

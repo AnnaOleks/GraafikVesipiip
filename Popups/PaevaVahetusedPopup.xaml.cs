@@ -16,11 +16,11 @@ public partial class PaevaVahetusedPopup : CommunityToolkit.Maui.Views.Popup
 {
     // === Состояние попапа ===
     private readonly DateTime _kuupaev;                      // выбранная дата
-    private readonly IShiftService _vahetuseTeenus;          // сервис смен
-    private readonly ITootajaService _tootajaTeenus;         // сервис работников
+    public readonly IShiftService _vahetuseTeenus;          // сервис смен
+    public readonly ITootajaService _tootajaTeenus;         // сервис работников
 
-    private List<Tootaja> _tootajad = new();
-    private Dictionary<int, Tootaja> _tootajaIndeks = new();
+    public List<Tootaja> _tootajad = new();
+    public Dictionary<int, Tootaja> _tootajaIndeks = new();
     private ObservableCollection<VahetusVaade> _paevaVaated = new();
     private Vahetus? _valitudVahetus = null;
 
@@ -51,7 +51,7 @@ public partial class PaevaVahetusedPopup : CommunityToolkit.Maui.Views.Popup
     }
 
     // Справочник работников
-    private async Task LaeTootajadAsync()
+    public async Task LaeTootajadAsync()
     {
         _tootajad = await _tootajaTeenus.KoikAsync();
         _tootajaIndeks = _tootajad.ToDictionary(t => t.Id, t => t);
@@ -62,7 +62,7 @@ public partial class PaevaVahetusedPopup : CommunityToolkit.Maui.Views.Popup
     }
 
     // Смены выбранного дня
-    private async Task LaePaevavahetusedAsync()
+    public async Task LaePaevavahetusedAsync()
     {
         var kuuAlgus = new DateTime(_kuupaev.Year, _kuupaev.Month, 1);
         var kuuVahetused = await _vahetuseTeenus.LeiaKuuVahetusedAsync(kuuAlgus);

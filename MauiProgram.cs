@@ -37,6 +37,9 @@ namespace GraafikVesipiip
             looja.Services.AddSingleton<IShiftService, ShiftService>();
 
             // === ViewModel + Pages ===
+            looja.Services.AddTransient<StartPageViewModel>();
+            looja.Services.AddTransient<StartPage>();
+
             looja.Services.AddTransient<KuuKalenderViewModel>();
             looja.Services.AddTransient<KuuKalenderPage>();
 

@@ -91,6 +91,9 @@
 		<MauiXaml Update="Views\KuuKalenderPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\SettingsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\StartPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

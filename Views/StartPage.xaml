@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GraafikVesipiip.Views.NewPage1"
+             x:Class="GraafikVesipiip.Views.StartPage"
              Shell.NavBarIsVisible="False"
              NavigationPage.HasNavigationBar="False"
              Title="StartPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+            <Label 
+                Text="Планировщик смен" 
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Margin="0,20,0,0"/>
+            <Label 
+                Text="{Binding PealkiriKuu}" 
+                FontSize="20"
+                HorizontalTextAlignment="Center"/>
+
+            <Border 
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 24"
+                Margin="0,30,0,30">
+                <Border.Shadow>
+                    <Shadow 
+                        Radius="10"/>
+                </Border.Shadow>
+                <VerticalStackLayout 
+                    Padding="20" 
+                    Spacing="18">
+                    <Label 
+                        Text="Сегодня" 
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
+                    <Label 
+                        Text="{Binding TanaKohtAvatud}" />
+                    <Label 
+                        Text="{Binding TanaTootajadRida}"/>
+                    <Label 
+                        Text="{Binding TananeTuhimikuteRida}" 
+                        TextColor="{Binding TananeTuhimikuteVarv}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout>
+                <Button
+                    Text="📅 Календарь месяца"
+                    Command="{Binding AvaKuuKalenderCommand}" 
+                    Margin="0,0,0,20">
+                    <Button.Shadow
+                        InputTransparent="True"  
+                        ZIndex="-1">
+                        <Shadow
+                            Radius="10"
+                            />
+                    </Button.Shadow>
+                </Button>
+
+                <Button
+                    Text="👤 Сотрудники"
+                    Command="{Binding AvaTootajadCommand}" 
+                    Margin="0,0,0,20">
+                    <Button.Shadow>
+                        <Shadow
+                            Radius="10"/>
+                    </Button.Shadow>
+                </Button>
+
+                <Button
+                    Text="⚙️ Настройки расписания"
+                    Command="{Binding AvaSeadedCommand}">
+                    <Button.Shadow>
+                        <Shadow
+                            Radius="10"/>
+                    </Button.Shadow>
+                </Button>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

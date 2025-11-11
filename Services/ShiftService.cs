@@ -44,5 +44,44 @@ namespace GraafikVesipiip.Services
             var lopp = algus.AddMonths(1);
             return (algus, lopp);
         }
+
+        private Task<List<Vahetus>> LaePaevavahetusedAsync(DateTime date)
+        {
+            var d = date.Date;
+            return _db.Yhendus.Table<Vahetus>()
+                .Where(v => v.Kuupaev == d)
+                .ToListAsync();
+        }
+        public async Task<PaevaVahetus> LeiaPaevaVahetus(DateTime date)
+        {
+
+            var vahetused = await LaePaevavahetusedAsync(date);
+            var tootajadIds = vahetused.Select(v => v.TootajaId).Distinct().ToArray();
+            var tootajad = (await _db.LaeTootajadAsync())
+                            .Where(t => tootajadIds.Contains(t.Id))
+                            .ToDictionary(t => t.Id);
+
+            var summaries = new List<PaevaVahetus.ShiftSummary>();
+            foreach (var v in vahetused)
+            {
+                if (tootajad.TryGetValue(v.TootajaId, out var t))
+                {
+                    summaries.Add(new PaevaVahetus.ShiftSummary
+                    {
+                        VahetusId = v.Id,
+                        TootajaId = t.Id,
+                        Name = t.Nimi,
+                        Color = t.VarvHex,
+                        Algus = v.Algus,
+                        Lopp = v.Lopp
+                    });
+                }
+            }
+            return new PaevaVahetus
+            {
+                Paev = date.Date,
+                Tootajad = summaries
+            };
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace GraafikVesipiip.Services
         Task<List<Vahetus>> LeiaTootajaVahetusedAsync(int tootajaId, DateTime kuu); // смены сотрудника за месяц
         Task<double> LeiaTootajaTunnidAsync(int tootajaId, DateTime kuu);       // сумма часов сотрудника за месяц
 
+        Task<PaevaVahetus> LeiaPaevaVahetus(DateTime date);                     // смены за день с деталями по работникам
+
         Task<int> LisaAsync(Vahetus v); // добавить смену
         Task UuendaAsync(Vahetus v);    // обновить смену
         Task KustutaAsync(int id);      // удалить смену

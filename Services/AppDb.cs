@@ -34,6 +34,8 @@ namespace GraafikVesipiip.Services
 
         // Публичный доступ к соединению для других сервисов (CRUD/запросы).
         public SQLiteAsyncConnection Yhendus => _yhendus;
+
+        public Task<List<Tootaja>> LaeTootajadAsync() => Yhendus.Table<Tootaja>().ToListAsync();
     }
 }
 
