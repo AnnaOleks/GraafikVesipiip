@@ -1,19 +1,26 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using GraafikVesipiip.Services;
-using GraafikVesipiip.Views;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* StartPageViewModel — это «мозг» стартовой страницы. Он:
+ * подставляет заголовок месяца,
+ * тянет сводку за сегодня (LeiaPaevaVahetus из IShiftService),
+ * красиво форматирует: часы работы, список сотрудников, «дыры» (gap’ы),
+ * хранит флаги/цвета для UI,
+ * даёт команды навигации в разделы: календарь, сотрудники, настройки.*/
+
+using CommunityToolkit.Mvvm.ComponentModel; // ObservableObject + [ObservableProperty]
+using CommunityToolkit.Mvvm.Input;          // [RelayCommand] => ICommand
+using GraafikVesipiip.Services;             // IShiftService
+using GraafikVesipiip.Views;                // имена страниц для Shell-навигации
+using Microsoft.Maui.Graphics;              // Color, Colors
+using System.Globalization;                 // CultureInfo ("ru-RU") для заголовка месяца
+using CommunityToolkit.Mvvm.DependencyInjection; 
+
 
 namespace GraafikVesipiip.ViewModels
 {
     public partial class StartPageViewModel : ObservableObject
     {
         private readonly IShiftService _calendar;
+        public LanguageViewModel Lang { get; set; }
+       
 
         [ObservableProperty]
         private bool isBusy;
@@ -36,20 +43,25 @@ namespace GraafikVesipiip.ViewModels
         [ObservableProperty]
         private Color tananeTuhimikuteVarv = Colors.Black;
 
-        public StartPageViewModel(IShiftService calendar)
+        public StartPageViewModel(IShiftService calendar, LanguageViewModel lang)
         {
             _calendar = calendar;
+            Lang = lang;
 
             var culture = CultureInfo.GetCultureInfo("ru-RU");
             PealkiriKuu = DateTime.Now.ToString("MMMM yyyy", culture);
+            /* первичная инициализация + запуск загрузки
+             Вливает зависимость сервиса.
+            Выставляет заголовок месяца «ноябрь 2025» локалью ru-RU.*/
 
-            // Демотекст до загрузки
             TanaKohtAvatud = "—";
             TanaTootajadRida = "—";
             TananeTuhimikuteRida = "—";
             TananeTuhimikuteVarv = Colors.Gray;
+            // Сразу задаёт «плейсхолдеры», чтобы экран был опрятным до прихода данных.
 
-            _ = LoadAsync();
+            _ = LoadAsync(); // запускаем загрузку в фоне (fire-and-forget)
+            
         }
 
         private async Task LoadAsync()
@@ -59,26 +71,39 @@ namespace GraafikVesipiip.ViewModels
                 IsBusy = true;
 
                 var today = DateTime.Today;
+
+                // 1) Часы работы заведения по расписанию (AppDb.WorkHours)
+                var (open, close) = AppDb.WorkHours(today.DayOfWeek);
+                TanaKohtAvatud = $"{Lang.WorkHoursTitle} \n{open:hh\\:mm}–{close:hh\\:mm}";
+                /* AppDb.WorkHours(dow) — статический метод, даёт интервал работы на день недели.
+                 * Строка форматируется как HH:mm*/
+
+                // 2) Тянем сводку смен на сегодня (для списка сотрудников и «дыр»)
                 var summary = await _calendar.LeiaPaevaVahetus(today);
 
-                TanaKohtAvatud = summary.OnKinni
-                    ? "Заведение закрыто"
-                    : $"Часы работы: \n{summary.Algus:hh\\:mm}–{summary.Lopp:hh\\:mm}";
-
+                // Сотрудники
                 TanaTootajadRida = summary.Tootajad.Any()
-                    ? "В смене: \n" + string.Join(",\n",
-                        summary.Tootajad.Select(w => $"{w.Name} {w.Algus:hh\\:mm}–{w.Lopp:hh\\:mm}"))
-                    : "Сотрудников нет";
+                    ? $"{Lang.EmployeesInShiftTitle} \n" + string.Join(",\n",
+                        summary.Tootajad.Select(w => $"{w.Name}: {w.ShiftAlgus:hh\\:mm}–{w.ShiftLopp:hh\\:mm}"))
+                    : $"{Lang.NoEmployees}";
 
-                if (summary.Tuhimik.Any())
+                // 3) Логика «дыр»:
+                //    Если НЕТ работников — показываем одну большую «дыру» на весь рабочий интервал.
+                //    Иначе: список реальных «окон» или «Покрыто полностью».
+                if (!summary.Tootajad.Any())
                 {
-                    TananeTuhimikuteRida = "Дыры: \n" + string.Join(", ",
-                        summary.Tuhimik.Select(g => $"{g.Algus:hh\\:mm}–{g.Lopp:hh\\:mm}"));
-                    TananeTuhimikuteVarv = Color.FromArgb("#f04e9e");
+                    TananeTuhimikuteRida = $"{Lang.GapsTodayLine} \n{open:hh\\:mm}–{close:hh\\:mm}";
+                    TananeTuhimikuteVarv = Color.FromArgb("#61504b");
+                }
+                else if (summary.Tuhimik.Any())
+                {
+                    TananeTuhimikuteRida = $"{Lang.GapsTodayLine} \n" + string.Join(", ",
+                        summary.Tuhimik.Select(g => $"{g.GapAlgus:hh\\:mm}–{g.GapLopp:hh\\:mm}"));
+                    TananeTuhimikuteVarv = Color.FromArgb("#61504b");
                 }
                 else
                 {
-                    TananeTuhimikuteRida = summary.OnKinni ? "—" : "Покрыто полностью";
+                    TananeTuhimikuteRida = Lang.FullyCovered;
                     TananeTuhimikuteVarv = Colors.Green;
                 }
             }
@@ -89,16 +114,49 @@ namespace GraafikVesipiip.ViewModels
         }
 
         [RelayCommand]
-        private Task AvaKuuKalender() => Shell.Current.GoToAsync(nameof(KuuKalenderPage));
+        private async Task AvaKuuKalender()
+        {
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync(nameof(KuuKalenderPage));
+                return;
+            }
+
+            // Fallback без Shell: получаем страницу из DI (с нужной VM внутри)
+            var page = Ioc.Default.GetRequiredService<KuuKalenderPage>();
+            await Application.Current?.MainPage?.Navigation.PushAsync(page);
+        }
 
 
 
         [RelayCommand]
-        private Task AvaTootajad() => Shell.Current.GoToAsync(nameof(TootajadPage));
+        private async Task AvaTootajad()
+        {
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync(nameof(TootajadPage));
+                return;
+            }
 
+            // Fallback без Shell: получаем страницу из DI (с нужной VM внутри)
+            var page = Ioc.Default.GetRequiredService<TootajadPage>();
+            await Application.Current?.MainPage?.Navigation.PushAsync(page);
+        }
+        
 
         [RelayCommand]
-        private Task AvaSeaded() => Shell.Current.GoToAsync(nameof(SettingsPage));
+        private async Task AvaSeaded()
+        {
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync(nameof(SettingsPage));
+                return;
+            }
+
+            // Fallback без Shell: получаем страницу из DI (с нужной VM внутри)
+            var page = Ioc.Default.GetRequiredService<SettingsPage>();
+            await Application.Current?.MainPage?.Navigation.PushAsync(page);
+        }
 
     }
 }

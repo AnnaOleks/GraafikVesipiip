@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="GraafikVesipiip.Popups.TootajaVahetusedPopup">
+
+    <VerticalStackLayout
+        Padding="16"
+        Spacing="12"
+        WidthRequest="360">
+
+        <!-- Заголовок: Имя сотрудника -->
+        <Label x:Name="LblPealkiri"
+               FontSize="18"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Подзаголовок: какой месяц -->
+        <Label x:Name="LblKuu"
+               FontSize="14"
+               HorizontalTextAlignment="Center"
+               Opacity="0.8" />
+
+        <!-- Список смен -->
+        <CollectionView x:Name="VahetusteList"
+                        HeightRequest="260">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Одна строка: дата + время смены -->
+                    <Grid ColumnDefinitions="*,Auto"
+                          Padding="4">
+                        <Label Grid.Column="0"
+                               Text="{Binding Kuupaev, StringFormat='{}{0:dd.MM.yyyy}'}"
+                               FontAttributes="Bold" />
+                        <Label Grid.Column="1"
+                               Text="{Binding AegTekst}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Кнопка закрытия -->
+        <Button Text="Закрыть"
+                HorizontalOptions="End"
+                Clicked="SulgeNupp_Clicked" />
+    </VerticalStackLayout>
+</toolkit:Popup>

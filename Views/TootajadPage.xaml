@@ -1,37 +1,119 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Страница показывает список работников с суммой часов за текущий месяц. -->
 <ContentPage
+    x:Name="ThisPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="GraafikVesipiip.Views.TootajadPage"
+    Shell.NavBarIsVisible="False"
+    NavigationPage.HasNavigationBar="False"
     Title="Töötajad">
 
-    <CollectionView ItemsSource="{Binding Read}"
-                    Margin="16"
-                    SelectionMode="None">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <!-- Одна строка: аватар | имя+часы | кнопка -->
-                <Grid ColumnDefinitions="64,*,Auto" ColumnSpacing="12" Padding="8">
+    <Grid>
+        <!-- фон -->
+        <Image 
+            Source="hookah.png"
+            Aspect="AspectFill"
+            Opacity="0.15" />
 
-                    <!-- Круглый «аватар-заглушка» -->
-                    <Border WidthRequest="48"
-                            HeightRequest="48"
-                            StrokeShape="Ellipse"
-                            Background="#2a2a2a"
-                            VerticalOptions="Center" />
+        <!-- содержимое -->
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+              Padding="16">
 
-                    <!-- Имя и часы за месяц -->
-                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                        <Label Text="{Binding Tootaja.Nimi}" FontAttributes="Bold"/>
-                        <Label Text="{Binding KuuTunnid, StringFormat='Tunnid kuus: {0:F1}'}"
-                               FontSize="12" Opacity="0.8"/>
-                    </VerticalStackLayout>
+            <!-- Заголовок страницы -->
+            <Label 
+                Grid.Row="0"
+                Text="Сотрудники"
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Margin="0,20,0,20"/>
 
-                    <!-- Кнопка «Vahetused» (дальше можно подвязать команду из VM) -->
-                    <Button Grid.Column="2" Text="Vahetused" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+            <!-- Список работников -->
+            <CollectionView
+                Grid.Row="1"
+                ItemsSource="{Binding Read}"
+                SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Одна строка: аватар | имя+часы | кнопка -->
+                        <Grid 
+                            ColumnDefinitions="80,*"
+                            RowDefinitions="Auto,Auto"
+                            ColumnSpacing="12" 
+                            Padding="8">
+
+                            <!-- Круглый «аватар-заглушка» -->
+                            <Border 
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                WidthRequest="80"
+                                HeightRequest="80"
+                                StrokeShape="Ellipse"
+                                Background="#2a2a2a"
+                                VerticalOptions="Center" />
+
+                            <!-- Имя и часы за месяц -->
+                            <VerticalStackLayout 
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                VerticalOptions="Center">
+                                <Label 
+                                    Text="{Binding Tootaja.Nimi}" 
+                                    FontAttributes="Bold"/>
+                                <Label 
+                                    Text="{Binding KuuTunnid, StringFormat='Tunnid kuus: {0:F1}'}"
+                                    FontSize="15" />
+                            </VerticalStackLayout>
+                            <Grid 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="10"
+                                Margin="0,6,0,0">
+
+                                <Button 
+                                    Grid.Column="0"
+                                    Text="Vahetused"
+                                    HorizontalOptions="Fill"
+                                    Command="{Binding Source={x:Reference ThisPage},
+                                                      Path=BindingContext.AvaTootajaVahetusedCommand}"
+                                    CommandParameter="{Binding .}" />
+
+                                <Button 
+                                    Grid.Column="1"
+                                    Text="Uuenda"
+                                    HorizontalOptions="Fill"
+                                    Command="{Binding Source={x:Reference ThisPage},
+                                                      Path=BindingContext.MuudaTootajaCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button
+                Grid.Row="2"
+                Text="Добавить"
+                Command="{Binding LisaTootajaCommand}"
+                Margin="0,30,0,0">
+                <Button.Shadow>
+                    <Shadow Radius="5" />
+                </Button.Shadow>
+            </Button>
+
+            <!-- Кнопка "Назад" -->
+            <Button
+                Grid.Row="3"
+                Text="Назад"
+                Command="{Binding TagasiEsileheleCommand}"
+                Margin="0,20,0,0">
+                <Button.Shadow>
+                    <Shadow Radius="5" />
+                </Button.Shadow>
+            </Button>
+
+        </Grid>
+    </Grid>
 </ContentPage>

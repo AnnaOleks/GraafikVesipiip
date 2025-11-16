@@ -61,6 +61,249 @@ namespace GraafikVesipiip.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Lisa.
+        /// </summary>
+        public static string Button_Add {
+            get {
+                return ResourceManager.GetString("Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tagasi.
+        /// </summary>
+        public static string Button_Back {
+            get {
+                return ResourceManager.GetString("Button_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Loobu.
+        /// </summary>
+        public static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tühjenda.
+        /// </summary>
+        public static string Button_Clear {
+            get {
+                return ResourceManager.GetString("Button_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sulge.
+        /// </summary>
+        public static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Vahetused.
+        /// </summary>
+        public static string Button_DayShifts {
+            get {
+                return ResourceManager.GetString("Button_DayShifts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Kustuta.
+        /// </summary>
+        public static string Button_Delete {
+            get {
+                return ResourceManager.GetString("Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Töötajad.
+        /// </summary>
+        public static string Button_Employees {
+            get {
+                return ResourceManager.GetString("Button_Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Kuu kalender.
+        /// </summary>
+        public static string Button_MonthCalendar {
+            get {
+                return ResourceManager.GetString("Button_MonthCalendar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Salvesta.
+        /// </summary>
+        public static string Button_Save {
+            get {
+                return ResourceManager.GetString("Button_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Graafiku seaded.
+        /// </summary>
+        public static string Button_Settings {
+            get {
+                return ResourceManager.GetString("Button_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Uuenda.
+        /// </summary>
+        public static string Button_Update {
+            get {
+                return ResourceManager.GetString("Button_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Kalender.
+        /// </summary>
+        public static string CalendarTitle {
+            get {
+                return ResourceManager.GetString("CalendarTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Täna on suletud.
+        /// </summary>
+        public static string ClosedToday {
+            get {
+                return ResourceManager.GetString("ClosedToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Kuupäev:.
+        /// </summary>
+        public static string DayShiftsHeader {
+            get {
+                return ResourceManager.GetString("DayShiftsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Vahetuses:.
+        /// </summary>
+        public static string EmployeesInShiftTitle {
+            get {
+                return ResourceManager.GetString("EmployeesInShiftTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Töötajad.
+        /// </summary>
+        public static string EmployeesTitle {
+            get {
+                return ResourceManager.GetString("EmployeesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Lõpp peab olema hiljem kui algus..
+        /// </summary>
+        public static string Error_EndBeforeStart {
+            get {
+                return ResourceManager.GetString("Error_EndBeforeStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Vali töötaja..
+        /// </summary>
+        public static string Error_SelectEmployee {
+            get {
+                return ResourceManager.GetString("Error_SelectEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Algus ja lõpp ei tohi olla samad..
+        /// </summary>
+        public static string Error_TimeEqual {
+            get {
+                return ResourceManager.GetString("Error_TimeEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Määra algus ja lõpp (HH:MM)..
+        /// </summary>
+        public static string Error_TimeRequired {
+            get {
+                return ResourceManager.GetString("Error_TimeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Täielikult kaetud.
+        /// </summary>
+        public static string FullyCovered {
+            get {
+                return ResourceManager.GetString("FullyCovered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Augud:.
+        /// </summary>
+        public static string GapsTodayLine {
+            get {
+                return ResourceManager.GetString("GapsTodayLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tunnid kuus:.
+        /// </summary>
+        public static string HoursInMonth {
+            get {
+                return ResourceManager.GetString("HoursInMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Töötaja:.
+        /// </summary>
+        public static string Label_Employee {
+            get {
+                return ResourceManager.GetString("Label_Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Lõpp:.
+        /// </summary>
+        public static string Label_End {
+            get {
+                return ResourceManager.GetString("Label_End", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Algus:.
+        /// </summary>
+        public static string Label_Start {
+            get {
+                return ResourceManager.GetString("Label_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на {0:MMMM yyyy}.
         /// </summary>
         public static string MonthFormat {
@@ -70,11 +313,56 @@ namespace GraafikVesipiip.Resources.Strings {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Kalender.
+        ///   Ищет локализованную строку, похожую на Järgmine.
         /// </summary>
-        public static string Title_Calendar {
+        public static string NextMonth {
             get {
-                return ResourceManager.GetString("Title_Calendar", resourceCulture);
+                return ResourceManager.GetString("NextMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Töötajaid ei ole.
+        /// </summary>
+        public static string NoEmployees {
+            get {
+                return ResourceManager.GetString("NoEmployees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Eelmine.
+        /// </summary>
+        public static string PrevMonth {
+            get {
+                return ResourceManager.GetString("PrevMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Seaded.
+        /// </summary>
+        public static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Selle päeva vahetused:.
+        /// </summary>
+        public static string ShiftsTodayTitle {
+            get {
+                return ResourceManager.GetString("ShiftsTodayTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Vahetuste planeerija.
+        /// </summary>
+        public static string StartPageTitle {
+            get {
+                return ResourceManager.GetString("StartPageTitle", resourceCulture);
             }
         }
         
@@ -138,6 +426,24 @@ namespace GraafikVesipiip.Resources.Strings {
         public static string Week_T {
             get {
                 return ResourceManager.GetString("Week_T", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Baar on avatud:.
+        /// </summary>
+        public static string WorkHoursTitle {
+            get {
+                return ResourceManager.GetString("WorkHoursTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tööaeg:.
+        /// </summary>
+        public static string WorkTimeInterval {
+            get {
+                return ResourceManager.GetString("WorkTimeInterval", resourceCulture);
             }
         }
     }

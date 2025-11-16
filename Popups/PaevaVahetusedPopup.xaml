@@ -1,57 +1,206 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="GraafikVesipiip.Popups.PaevaVahetusedPopup">
-
+<?xml version="1.0" encoding="utf-8" ?> 
+    <!-- декларация XML.-->
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" 
+    x:Class="GraafikVesipiip.Popups.PaevaVahetusedPopup"
+ BackgroundColor="Transparent"
+    Padding="0">
+    <!-- ?xml ...?> — декларация XML.
+    <toolkit:Popup ...> — корневой элемент: Popup из CommunityToolkit.Maui (не ContentPage, а именно всплывающее окно).
+    xmlns="..." — стандартное пространство имён XAML для MAUI.
+    xmlns:x="..." — XAML-утилиты (x:Name, x:Key, x:DataType и т. п.).
+    xmlns:toolkit="..." — подключаем CommunityToolkit.Maui (иначе toolkit:Popup не распознается).
+    x:Class="..." — полное имя класса code-behind (файл PaevaVahetusedPopup.xaml.cs). Здесь живут обработчики событий и логика.-->
+    
     <!-- один корневой контейнер -->
-    <VerticalStackLayout Padding="16" Spacing="14" WidthRequest="380">
+    <Grid BackgroundColor="{AppThemeBinding Light=BgLight,
+                                           Dark=BgDark}"
+          HorizontalOptions="Fill"
+          VerticalOptions="Fill">
 
-        <Label x:Name="LblPealkiri" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center" />
+        <!-- сама карточка попапа -->
+        <Border
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            Padding="10"
+            StrokeThickness="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 20"
+            BackgroundColor="{AppThemeBinding Light={StaticResource BgLight},
+                                             Dark={StaticResource BgDark}}">
 
-        <VerticalStackLayout Spacing="6">
-            <Label Text="Selle päeva vahetused:" FontAttributes="Bold" />
-            <CollectionView x:Name="VahetusteList" HeightRequest="220"
-                            SelectionMode="Single"
-                            SelectionChanged="VahetusteList_SelectionChanged">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8" Padding="4">
-                            <Border WidthRequest="10" HeightRequest="10" StrokeShape="RoundRectangle 5"
-                                    BackgroundColor="{Binding VarvVoiHall}" />
-                            <VerticalStackLayout Grid.Column="1">
-                                <Label Text="{Binding Ajaliselt}" />
-                                <Label Text="{Binding TootajaNimi}" FontSize="12" Opacity="0.8"/>
-                            </VerticalStackLayout>
-                            <Button Grid.Column="2" Text="Muuda"   CommandParameter="{Binding .}" Clicked="MuudaNupp_Clicked" />
-                            <Button Grid.Column="3" Text="Kustuta" CommandParameter="{Binding .}" Clicked="KustutaNupp_Clicked" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
 
-        <BoxView HeightRequest="1" BackgroundColor="#334" />
+            <VerticalStackLayout 
+                Spacing="14" >
+                <!--Вертикальный стек — кладём элементы столбиком.
+                Padding="16" — внутренние отступы со всех сторон (контент «дышит»).
+                Spacing="14" — вертикальный промежуток между соседними дочерними элементами.
+                WidthRequest="380" — желаемая ширина попапа (MAUI попробует дать столько; на узких экранах может ужаться).-->
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="8">
-            <Label Grid.Row="0" Grid.Column="0" Text="Töötaja:" VerticalTextAlignment="Center" />
-            <Picker x:Name="TootajaValik" Grid.Row="0" Grid.Column="1" Title="Vali töötaja" ItemDisplayBinding="{Binding Nimi}" />
+                <Label 
+                    x:Name="LblPealkiri" 
+                    FontAttributes="Bold" 
+                    FontSize="18" 
+                    HorizontalTextAlignment="Center" />
+                <!--x:Name="LblPealkiri" — даёт доступ из code-behind (например: LblPealkiri.Text = "13 nov 2025";).
+                FontAttributes="Bold" — жирный.
+                FontSize="18" — размер шрифта.
+                HorizontalTextAlignment="Center" — выравнивание текста по центру.-->
 
-            <Label Grid.Row="1" Grid.Column="0" Text="Algus:" VerticalTextAlignment="Center" />
-            <TimePicker x:Name="AlgusPicker" Grid.Row="1" Grid.Column="1" />
+                <VerticalStackLayout >
+                    <Label 
+                        Text="Selle päeva vahetused:" 
+                        Margin="0,20,0,0"
+                        FontAttributes="Bold" />
+                    <CollectionView 
+                        x:Name="VahetusteList" 
+                        HeightRequest="220"
+                        SelectionMode="Single"
+                        SelectionChanged="VahetusteList_SelectionChanged">
+                        <!--CollectionView — список; король производительности по сравнению с ListView.
+                        x:Name — доступ из кода (VahetusteList.ItemsSource = ...).
+                        HeightRequest="220" — фиксируем высоту области списка, чтобы ниже в попапе поместилась форма.
+                        SelectionMode="Single" — можно выбрать ровно один элемент.
+                        SelectionChanged="..." — обработчик выбора. В code-behind ты, например, подставишь выбранную смену в поля «Тöötaja / Algus / Lõpp».-->
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout
+                                    Margin="0,20,0,0">
+                                    <Grid 
+                                        ColumnDefinitions="Auto,*" 
+                                        ColumnSpacing="8" 
+                                        Padding="4">
+                                        <Border 
+                                            WidthRequest="10" 
+                                            HeightRequest="10" 
+                                            StrokeShape="RoundRectangle 5"
+                                            BackgroundColor="{Binding VarvVoiHall}" />
+                                        <VerticalStackLayout 
+                                            Grid.Column="1">
+                                            <Label 
+                                                Text="{Binding Ajaliselt}" />
+                                            <Label 
+                                                Text="{Binding TootajaNimi}" 
+                                                FontSize="15" 
+                                                Opacity="0.8"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,4,0,12">
+                                        <Button 
+                                            Grid.Column="0"
+                                            Text="Muuda"
+                                            CommandParameter="{Binding .}"
+                                            Clicked="MuudaNupp_Clicked"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill"
+                                            />      
 
-            <Label Grid.Row="2" Grid.Column="0" Text="Lõpp:" VerticalTextAlignment="Center" />
-            <TimePicker x:Name="LoppPicker" Grid.Row="2" Grid.Column="1" />
+                                        <Button 
+                                            Grid.Column="1"
+                                            Text="Kustuta"
+                                            CommandParameter="{Binding .}"
+                                            Clicked="KustutaNupp_Clicked"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill"
+                                            />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
 
-            <Grid Grid.Row="3" Grid.ColumnSpan="2" ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
-                <Button x:Name="SalvestaNupp" Grid.Column="0" Text="Salvesta" Clicked="SalvestaNupp_Clicked" />
-                <Button Grid.Column="1" Text="Tühjenda" Clicked="TuhjendaNupp_Clicked" />
-                <Button Grid.Column="2" Text="Sulge" HorizontalOptions="End" Clicked="SulgeNupp_Clicked" />
-            </Grid>
+                <BoxView 
+                    HeightRequest="1" 
+                    BackgroundColor="#334" />
+                <!--тонкая линия. BoxView — прямоугольник-«кирпичик».
+                HeightRequest="1" — высота 1px (условно; реальное значение зависит от плотности пикселей).
+                BackgroundColor="#334" — темновато-синий сероватый; выглядит как «черта».-->
+                <Grid 
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                    ColumnDefinitions="Auto,*" 
+                    RowSpacing="10" 
+                    ColumnSpacing="8">
+                    <!--внешний Grid формы.
+                    ряды: 4 строки Auto — каждая по высоте контента.
+                    колонки: слева фикс (лейблы), справа растяжимая (инпуты).
+                    RowSpacing / ColumnSpacing — отступы между ячейками.-->
+                    <Label 
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        Text="Töötaja:" 
+                        VerticalTextAlignment="Center" />
+                    <Picker 
+                        x:Name="TootajaValik" 
+                        Grid.Row="0" 
+                        Grid.Column="1" 
+                        Title="Vali töötaja" 
+                        ItemDisplayBinding="{Binding Nimi}" />
+                    <!--слева метка, справа выпадающий список.
+                    x:Name="TootajaValik" — из кода можно обратиться к выбранному элементу (TootajaValik.SelectedItem).
+                    Title="Vali töötaja" — плейсхолдер до выбора.
+                    ItemDisplayBinding="{Binding Nimi}" — какое свойство показывать в списке (имя сотрудника).
+                    Значит, ItemsSource этого Picker должен быть списком объектов, у которых есть Nimi (например, List<Tootaja> или List<EmployeeOption>).-->
 
-            <Label x:Name="Teade" Grid.Row="4" Grid.ColumnSpan="2" TextColor="#ff6666" FontSize="12" IsVisible="False" />
-        </Grid>
+                    <Label 
+                        Grid.Row="1" 
+                        Grid.Column="0" 
+                        Text="Algus:" 
+                        VerticalTextAlignment="Center" />
+                    <TimePicker 
+                        x:Name="AlgusPicker" 
+                        Grid.Row="1" 
+                        Grid.Column="1" />
 
-    </VerticalStackLayout>
+                    <Label 
+                        Grid.Row="2" 
+                        Grid.Column="0" 
+                        Text="Lõpp:" 
+                        VerticalTextAlignment="Center" />
+                    <TimePicker 
+                        x:Name="LoppPicker" 
+                        Grid.Row="2" 
+                        Grid.Column="1" />
+
+                    <Grid 
+                        Grid.Row="3" 
+                        Grid.ColumnSpan="2" 
+                        ColumnDefinitions="Auto,Auto,*" 
+                        ColumnSpacing="8">
+                        <Button 
+                            x:Name="SalvestaNupp" 
+                            Grid.Column="0" 
+                            Text="Salvesta" 
+                            Clicked="SalvestaNupp_Clicked" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Tühjenda" 
+                            Clicked="TuhjendaNupp_Clicked" />
+                        <Button 
+                            Grid.Column="2" 
+                            Text="Sulge" 
+                            HorizontalOptions="End" 
+                            Clicked="SulgeNupp_Clicked" />
+                    </Grid>
+                    <!--внутренний грид на трёх колонках:
+                    колонка 0: «Сохранить»,
+                    колонка 1: «Очистить»,
+                    колонка 2: гибкая — кнопка «Закрыть» уезжает вправо (HorizontalOptions="End").
+                    Grid.Row="3" Grid.ColumnSpan="2" — блок занимает всю ширину формы (обе колонки).-->
+                    <Label 
+                        x:Name="Teade" 
+                        Grid.Row="4" 
+                        Grid.ColumnSpan="2" 
+                        TextColor="#ff6666" 
+                        FontSize="12" IsVisible="False" />
+                    <!--x:Name="Teade" — системное «сообщение» пользователю (ошибка/подсказка).
+                    TextColor="#ff6666" — красноватый (ошибки).
+                    IsVisible="False" — скрыт по умолчанию.-->
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
 </toolkit:Popup>

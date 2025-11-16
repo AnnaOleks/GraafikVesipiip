@@ -88,6 +88,12 @@
 		<MauiXaml Update="Popups\PaevaVahetusedPopup.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Popups\TootajaPopup.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Popups\TootajaVahetusedPopup.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\KuuKalenderPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

@@ -1,9 +1,13 @@
+using GraafikVesipiip.ViewModels;
+
 namespace GraafikVesipiip.Views;
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage()
-	{
-		InitializeComponent();
-	}
+    // —траница получает ViewModel через DI (или вручную)
+    public SettingsPage(SettingsViewModel vm)
+    {
+        InitializeComponent();
+        BindingContext = vm; // прив€зываем VM к XAML
+    }
 }

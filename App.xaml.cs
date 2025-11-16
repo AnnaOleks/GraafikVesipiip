@@ -5,14 +5,16 @@ using GraafikVesipiip.Services;
 using GraafikVesipiip.Views;
 using Microsoft.Maui;
 using Microsoft.Extensions.DependencyInjection;
+using GraafikVesipiip.ViewModels;
 
 namespace GraafikVesipiip;
 
 public partial class App : Application
 {
-    public App()
+    public App(ISettingService settingService)
     {
         InitializeComponent();
+        settingService.ApplyTheme();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

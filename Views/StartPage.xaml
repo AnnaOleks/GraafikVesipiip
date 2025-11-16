@@ -4,79 +4,74 @@
              x:Class="GraafikVesipiip.Views.StartPage"
              Shell.NavBarIsVisible="False"
              NavigationPage.HasNavigationBar="False"
-             Title="StartPage">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="18">
-            <Label 
-                Text="Планировщик смен" 
-                FontSize="32"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                Margin="0,20,0,0"/>
-            <Label 
-                Text="{Binding PealkiriKuu}" 
-                FontSize="20"
-                HorizontalTextAlignment="Center"/>
+             Title="StartPage"
+>
+    <Grid>
+        <Image 
+            Source="hookah.png"
+            Aspect="AspectFill"
+            Opacity="0.15" />
+        <ScrollView>
+            <VerticalStackLayout 
+                Padding="20" 
+                Spacing="20">
+                <Label 
+                    Text="{Binding Lang.StartPageTitle}" 
+                    FontSize="32"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Margin="0,20,0,0"/>
+                <Label 
+                    Text="{Binding PealkiriKuu}" 
+                    Margin="0,-20,0,20"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"/>
 
-            <Border 
-                StrokeThickness="0"
-                StrokeShape="RoundRectangle 24"
-                Margin="0,30,0,30">
-                <Border.Shadow>
-                    <Shadow 
-                        Radius="10"/>
-                </Border.Shadow>
-                <VerticalStackLayout 
-                    Padding="20" 
-                    Spacing="18">
-                    <Label 
-                        Text="Сегодня" 
-                        FontSize="25"
-                        FontAttributes="Bold"
-                        TextColor="White"/>
-                    <Label 
-                        Text="{Binding TanaKohtAvatud}" />
-                    <Label 
-                        Text="{Binding TanaTootajadRida}"/>
-                    <Label 
-                        Text="{Binding TananeTuhimikuteRida}" 
-                        TextColor="{Binding TananeTuhimikuteVarv}" />
+                <Label 
+                    Text="{Binding TanaKohtAvatud}" />
+                <Label 
+                    Text="{Binding TanaTootajadRida}"/>
+                <Label 
+                    Text="{Binding TananeTuhimikuteRida}" 
+                    FontAttributes="Bold"
+                    TextColor="{Binding TananeTuhimikuteVarv}" />
+
+                <VerticalStackLayout
+                    Margin="0,20,0,0">
+
+                    <Button
+                        Text="Календарь"
+                        Command="{Binding AvaKuuKalenderCommand}" 
+                        Margin="0,0,0,20">
+                        <Button.Shadow
+                            InputTransparent="True"  
+                            ZIndex="-1">
+                            <Shadow
+                                Radius="5"
+                                />
+                        </Button.Shadow>
+                    </Button>
+
+                    <Button
+                        Text="Сотрудники"
+                        Command="{Binding AvaTootajadCommand}" 
+                        Margin="0,0,0,20">
+                        <Button.Shadow>
+                            <Shadow
+                                Radius="5"/>
+                        </Button.Shadow>
+                    </Button>
+
+                    <Button
+                        Text="Настройки"
+                        Command="{Binding AvaSeadedCommand}">
+                        <Button.Shadow>
+                            <Shadow
+                                Radius="5"/>
+                        </Button.Shadow>
+                    </Button>
                 </VerticalStackLayout>
-            </Border>
-
-            <VerticalStackLayout>
-                <Button
-                    Text="📅 Календарь месяца"
-                    Command="{Binding AvaKuuKalenderCommand}" 
-                    Margin="0,0,0,20">
-                    <Button.Shadow
-                        InputTransparent="True"  
-                        ZIndex="-1">
-                        <Shadow
-                            Radius="10"
-                            />
-                    </Button.Shadow>
-                </Button>
-
-                <Button
-                    Text="👤 Сотрудники"
-                    Command="{Binding AvaTootajadCommand}" 
-                    Margin="0,0,0,20">
-                    <Button.Shadow>
-                        <Shadow
-                            Radius="10"/>
-                    </Button.Shadow>
-                </Button>
-
-                <Button
-                    Text="⚙️ Настройки расписания"
-                    Command="{Binding AvaSeadedCommand}">
-                    <Button.Shadow>
-                        <Shadow
-                            Radius="10"/>
-                    </Button.Shadow>
-                </Button>
             </VerticalStackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

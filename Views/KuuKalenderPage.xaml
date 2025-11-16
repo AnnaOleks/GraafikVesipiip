@@ -14,68 +14,175 @@
         <ResourceDictionary>
             <!-- Конвертер окраски «текущий месяц / не текущий» -->
             <conv:BoolToColorConverter x:Key="BoolToColor" />
+            <conv:IntGreaterThanZeroConverter x:Key="IntGtZero" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="16" Spacing="12">
+    <Grid>
+        <Image 
+        Source="hookah.png"
+        Aspect="AspectFill"
+        Opacity="0.15" />
+        <VerticalStackLayout 
+            Padding="16" 
+            Spacing="12">
+            <Label 
+                Text="Календарь" 
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Margin="0,20,0,0"/>
 
-        <!-- Переключение месяцев -->
-        <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,30,0,30">
-            <Button Grid.Column="0" Text="◀" Command="{Binding EelmineKuuCommand}" />
-            <Label  Grid.Column="1"
+            <!-- Переключение месяцев -->
+            <Grid 
+                ColumnDefinitions="Auto,*,Auto" 
+                Margin="0,30,0,30">
+                <Button 
+                    Grid.Column="0" 
+                    Text="◀" 
+                    Command="{Binding EelmineKuuCommand}">
+                    <Button.Shadow
+                        InputTransparent="True"  
+                        ZIndex="-1">
+                        <Shadow
+                            Radius="5"/>
+                    </Button.Shadow>
+                </Button>
+                <Label  
+                    Grid.Column="1"
                     Text="{Binding PraeguneKuu, StringFormat='{}{0:MMMM yyyy}'}"
                     FontSize="23"
                     HorizontalTextAlignment="Center" />
-            <Button Grid.Column="2" Text="▶" Command="{Binding JargmineKuuCommand}" />
-        </Grid>
+                <Button 
+                    Grid.Column="2" 
+                    Text="▶" 
+                    Command="{Binding JargmineKuuCommand}" >
+                    <Button.Shadow
+                        InputTransparent="True"  
+                        ZIndex="-1">
+                        <Shadow
+                            Radius="5"/>
+                    </Button.Shadow>
+                </Button>
+            </Grid>
 
-        <!-- Заголовок дней недели -->
-        <Grid ColumnDefinitions="*,*,*,*,*,*,*">
-            <Label Grid.Column="0" Text="E" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="1" Text="T" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="2" Text="K" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="3" Text="N" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="4" Text="R" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="5" Text="L" HorizontalTextAlignment="Center"/>
-            <Label Grid.Column="6" Text="P" HorizontalTextAlignment="Center"/>
-        </Grid>
+            <!-- Заголовок дней недели -->
+            <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+                <Label 
+                    Grid.Column="0" 
+                    Text="E" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="1" 
+                    Text="T" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="2" 
+                    Text="K" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="3" 
+                    Text="N" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="4" 
+                    Text="R" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="5" 
+                    Text="L" 
+                    HorizontalTextAlignment="Center"/>
+                <Label 
+                    Grid.Column="6" 
+                    Text="P" 
+                    HorizontalTextAlignment="Center"/>
+            </Grid>
 
-        <!-- Календарная сетка 6×7 -->
-        <CollectionView ItemsSource="{Binding Paevad}"
-                        Margin="0,6,0,0"
-                        SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="7" />
-            </CollectionView.ItemsLayout>
+            <!-- Календарная сетка 6×7 -->
+            <CollectionView 
+                ItemsSource="{Binding Paevad}"
+                Margin="0,0,0,0"
+                SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout 
+                        Orientation="Vertical" 
+                        Span="7" />
+                </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <!-- Ячейка дня -->
-                    <Border StrokeShape="RoundRectangle 10"
-                        Padding="6" Margin="2"
-                        BackgroundColor="{Binding OnPraeguneKuu,
-                                          Converter={StaticResource BoolToColor},
-                                          ConverterParameter='#af9d98|#d4d4d3'}">
-                        <Grid>
-                            <!-- САМО ЧИСЛО ДНЯ -->
-                            <Label Text="{Binding Kuupaev, StringFormat='{}{0:dd}'}"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   FontAttributes="Bold"
-                   TextColor="White"/>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Ячейка дня -->
+                        <Border 
+                            StrokeShape="RoundRectangle 10"
+                            Padding="10"
+                            Margin="1"
+                            BackgroundColor="{Binding OnPraeguneKuu, Converter={StaticResource BoolToColor}, ConverterParameter='#af9d98|#d4d4d3'}">
+                            <Grid 
+                                RowDefinitions="*,Auto">
+                               
+                                <!-- САМО ЧИСЛО ДНЯ -->
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding Kuupaev, StringFormat='{}{0:dd}'}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    FontAttributes="Bold"
+                                    TextColor="White"/>    
 
-                            <!-- Кликабельность ячейки -->
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer
-                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.AvaPaevCommand}"
-                    CommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
+                                 <!-- НИЖНЯЯ ПОЛОСА С МЕТКАМИ -->
+                                 <VerticalStackLayout 
+                                    Grid.Row="1"
+                                    Spacing="3"
+                                    Padding="0,2,0,0"
+                                     
+                                    BindableLayout.ItemsSource="{Binding Markers}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <!-- Горизонтальная полоска -->
+                                            <BoxView 
+                                                HeightRequest="2"
+                                                HorizontalOptions="Fill"
+                                                CornerRadius="2"
+                                                Color="{Binding .}" 
+                                                BackgroundColor="Transparent"/>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
 
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                </VerticalStackLayout>
 
-    </VerticalStackLayout>
+                                <!-- если меток больше 4 — покажем +N -->
+                                <Label 
+                                    Grid.Row="1"
+                                    Text="{Binding MarkerOverflow, StringFormat='+{0}'}"
+                                    IsVisible="{Binding MarkerOverflow, Converter={StaticResource IntGtZero}}"
+                                    FontSize="10"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End"
+                                    Margin="0,3,0,0" />    
+                            
+                                <!-- Кликабельность ячейки -->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                          Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.AvaPaevCommand}"
+                                          CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <VerticalStackLayout>
+                <Button
+                    Text="Назад"
+                    Command="{Binding TagasiEsileheleCommand}"
+                    Margin="0,30,0,0">
+                    <Button.Shadow>
+                        <Shadow
+                                Radius="5"/>
+                    </Button.Shadow>
+                </Button>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

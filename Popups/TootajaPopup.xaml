@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="GraafikVesipiip.Popups.TootajaPopup">
+
+    <!-- Один корневой контейнер -->
+    <VerticalStackLayout
+        Padding="16"
+        Spacing="12"
+        WidthRequest="360">
+
+        <!-- Заголовок: Новый / Изменить -->
+        <Label x:Name="LblPealkiri"
+               FontSize="18"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Форма -->
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+              ColumnDefinitions="Auto,*"
+              RowSpacing="10"
+              ColumnSpacing="8">
+
+            <!-- Имя -->
+            <Label Grid.Row="0" Grid.Column="0"
+                   Text="Имя:"
+                   VerticalTextAlignment="Center" />
+            <Entry x:Name="NimiEntry"
+                   Grid.Row="0" Grid.Column="1"
+                   Placeholder="Введите имя" />
+
+            <!-- Телефон -->
+            <Label Grid.Row="1" Grid.Column="0"
+                   Text="Телефон:"
+                   VerticalTextAlignment="Center" />
+            <Entry x:Name="TelefonEntry"
+                   Grid.Row="1" Grid.Column="1"
+                   Keyboard="Telephone"
+                   Placeholder="+372 ..." />
+
+            <!-- Цвет -->
+            <Label Grid.Row="2" Grid.Column="0"
+                   Text="Цвет:"
+                   VerticalTextAlignment="Center" />
+            <Grid Grid.Row="2" Grid.Column="1"
+                  ColumnDefinitions="Auto,*"
+                  ColumnSpacing="8">
+
+                <!-- Превью цвета -->
+                <BoxView x:Name="VarvPreview"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         CornerRadius="6"
+                         Color="Gray" />
+
+                <!-- Ввод HEX -->
+                <Entry x:Name="VarvEntry"
+                       Grid.Column="1"
+                       Placeholder="#FF66CC" />
+            </Grid>
+
+            <!-- Сообщение об ошибке -->
+            <Label x:Name="Teade"
+                   Grid.Row="3" Grid.ColumnSpan="2"
+                   TextColor="#ff6666"
+                   FontSize="12"
+                   IsVisible="False" />
+
+            <!-- Кнопки -->
+            <Grid Grid.Row="4" Grid.ColumnSpan="2"
+                  ColumnDefinitions="Auto,Auto,*"
+                  ColumnSpacing="8">
+                <Button x:Name="SalvestaNupp"
+                        Grid.Column="0"
+                        Text="Сохранить"
+                        Clicked="SalvestaNupp_Clicked" />
+                <Button x:Name="KustutaNupp"
+                        Grid.Column="1"
+                        Text="Удалить"
+                        Clicked="KustutaNupp_Clicked"
+                        IsVisible="False" />
+                <Button Grid.Column="2"
+                        Text="Отмена"
+                        HorizontalOptions="End"
+                        Clicked="SulgeNupp_Clicked" />
+            </Grid>
+        </Grid>
+    </VerticalStackLayout>
+</toolkit:Popup>

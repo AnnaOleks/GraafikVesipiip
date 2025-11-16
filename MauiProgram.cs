@@ -35,6 +35,7 @@ namespace GraafikVesipiip
             looja.Services.AddSingleton<AppDb>();
             looja.Services.AddSingleton<ITootajaService, TootajaService>();
             looja.Services.AddSingleton<IShiftService, ShiftService>();
+            looja.Services.AddSingleton<ISettingService, SettingService>(); 
 
             // === ViewModel + Pages ===
             looja.Services.AddTransient<StartPageViewModel>();
@@ -45,6 +46,11 @@ namespace GraafikVesipiip
 
             looja.Services.AddTransient<TootajadViewModel>();
             looja.Services.AddTransient<TootajadPage>();
+
+            looja.Services.AddTransient<SettingsViewModel>();
+            looja.Services.AddTransient<SettingsPage>();
+
+            looja.Services.AddSingleton<LanguageViewModel>();
 
             var rakendus = looja.Build();
 

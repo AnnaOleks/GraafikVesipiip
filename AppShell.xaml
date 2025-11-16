@@ -12,7 +12,10 @@
         Route="StartPage" />
 
     <Shell.TitleView>
-        <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}" />
+        <Label 
+            Text="{Binding Title}" 
+            Style="{StaticResource TitleLabel}" 
+            FontFamily="ElMessiri-Regular.ttf"/>
     </Shell.TitleView>
 
 </Shell>

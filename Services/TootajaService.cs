@@ -1,7 +1,4 @@
-﻿// Реализация использует AppDb.Yhendus (SQLiteAsyncConnection) для запросов.
-// Все методы асинхронные, чтобы не блокировать UI-поток.
-
-using GraafikVesipiip.Models;
+﻿using GraafikVesipiip.Models;
 
 namespace GraafikVesipiip.Services
 {

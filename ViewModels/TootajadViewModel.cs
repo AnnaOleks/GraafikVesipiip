@@ -1,20 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using GraafikVesipiip.Services;              // ITootajaService, IShiftService
-using GraafikVesipiip.Models;                // Tootaja, Vahetus
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using GraafikVesipiip.Models;
+using GraafikVesipiip.Services;
+using GraafikVesipiip.Views;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Extensions;
+using GraafikVesipiip.Popups;
 
 namespace GraafikVesipiip.ViewModels;
 
-/// <summary>
-/// VM для страницы работников. Показывает список работников и
-/// рассчитанные часы за текущий месяц (сумма по сменам).
-/// </summary>
 public partial class TootajadViewModel : ObservableObject
 {
     private readonly ITootajaService _tootajaTeenus;
     private readonly IShiftService _vahetuseTeenus;
+    public LanguageViewModel Lang { get; set; }
 
-    /// <summary> Коллекция для биндинга в XAML. </summary>
+    /// <summary> Строки для списка в XAML. </summary>
     public ObservableCollection<Rida> Read { get; } = new();
 
     public TootajadViewModel(ITootajaService tootajaTeenus, IShiftService vahetuseTeenus)
@@ -22,7 +24,7 @@ public partial class TootajadViewModel : ObservableObject
         _tootajaTeenus = tootajaTeenus;
         _vahetuseTeenus = vahetuseTeenus;
 
-        _ = LaeAsync();
+        _ = LaeAsync(); // загрузка при создании VM
     }
 
     /// <summary> Загружаем работников и считаем их месячные часы. </summary>
@@ -36,14 +38,12 @@ public partial class TootajadViewModel : ObservableObject
 
         foreach (var t in tootajad)
         {
-            // Берём смены конкретного работника в этом месяце
             var vahetused = kuuVahetused.Where(v => v.TootajaId == t.Id);
 
-            // Суммируем часы
             double tunnid = 0;
             foreach (var v in vahetused)
             {
-                var kestus = (v.Lopp - v.Algus).TotalHours;
+                var kestus = (v.VahetuseLopp - v.VahetuseAlgus).TotalHours;
                 if (kestus > 0) tunnid += kestus;
             }
 
@@ -55,7 +55,67 @@ public partial class TootajadViewModel : ObservableObject
         }
     }
 
-    /// <summary> Модель строки для XAML. </summary>
+    [RelayCommand]
+    private async Task AvaTootajaVahetused(Rida? rida)
+    {
+        if (rida is null) return;
+
+        var page = Application.Current?.MainPage;
+        if (page is null) return;
+
+        var popup = new TootajaVahetusedPopup(rida.Tootaja);
+        await page.ShowPopupAsync(popup);
+    }
+
+    /// <summary> Добавить нового сотрудника. </summary>
+    [RelayCommand]
+    private async Task LisaTootaja()
+    {
+        var page = Application.Current?.MainPage;
+        if (page is null) return;
+
+        var popup = new TootajaPopup();
+        await page.ShowPopupAsync(popup);
+        await LaeAsync();
+    }
+
+    /// <summary> Изменить выбранного сотрудника. </summary>
+    [RelayCommand]
+    private async Task MuudaTootaja(Rida? rida)
+    {
+        if (rida is null) return;
+
+        var page = Application.Current?.MainPage;
+        if (page is null) return;
+
+        var popup = new TootajaPopup(rida.Tootaja);
+        await page.ShowPopupAsync(popup);
+        await LaeAsync();
+    }
+
+    /// <summary> Удалить выбранного сотрудника. </summary>
+    [RelayCommand]
+    private async Task KustutaTootaja(Rida? rida)
+    {
+        if (rida is null) return;
+
+        await _tootajaTeenus.KustutaAsync(rida.Tootaja.Id);
+        await LaeAsync();
+    }
+
+    [RelayCommand]
+    private async Task TagasiEsilehele()
+    {
+        if (Shell.Current is not null)
+        {
+            await Shell.Current.GoToAsync(nameof(StartPage));
+            return;
+        }
+
+        var page = Ioc.Default.GetRequiredService<StartPage>();
+        await Application.Current?.MainPage?.Navigation.PushAsync(page);
+    }
+
     public sealed class Rida
     {
         public Tootaja Tootaja { get; set; } = default!;

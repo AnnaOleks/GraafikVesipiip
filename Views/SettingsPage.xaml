@@ -1,12 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GraafikVesipiip.Views.SettingsPage"
-             Title="SettingsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="GraafikVesipiip.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:GraafikVesipiip.ViewModels"
+    Shell.NavBarIsVisible="False"
+    NavigationPage.HasNavigationBar="False"
+    Title="Seaded">
+
+    <Grid>
+        <Image 
+            Source="hookah.png"
+            Aspect="AspectFill"
+            Opacity="0.15" />
+
+        <VerticalStackLayout 
+            Padding="16" 
+            Spacing="20">
+
+            <Label
+                Text="Настройки темы"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Margin="0,20,0,10"/>
+
+            <VerticalStackLayout 
+                Spacing="8"
+                Margin="0,0,0,20">
+                <Label 
+                    Text="Тема приложения" 
+                    FontAttributes="Bold" />
+                <HorizontalStackLayout
+                    Spacing="20">
+                    <RadioButton
+                        Content="Системная"
+                        GroupName="ThemeGroup"
+                        IsChecked="{Binding IsSystemTheme}" />
+
+                    <RadioButton
+                        Content="Светлая"
+                        GroupName="ThemeGroup"
+                        IsChecked="{Binding IsLightTheme}" />
+
+                    <RadioButton
+                        Content="Тёмная"
+                        GroupName="ThemeGroup"
+                        IsChecked="{Binding IsDarkTheme}" />
+                           
+                </HorizontalStackLayout>
+                <Label 
+                    Text="Язык приложения" 
+                    FontAttributes="Bold" />
+                <HorizontalStackLayout>
+                    <!-- Russian -->
+                    <Button 
+                        BackgroundColor="Transparent"
+                        WidthRequest="100"
+                        HeightRequest="80"
+                        Command="{Binding Lang.SetRussianCommand}">
+                        <Button.ImageSource>
+                            <FileImageSource File="flagrus.png" />
+                        </Button.ImageSource>
+                        <Button.Text>
+                            <Binding Path="RussianButton" />
+                        </Button.Text>
+                    </Button>
+                    <!-- Estonian -->
+                    <Button 
+                        BackgroundColor="Transparent"
+                        WidthRequest="100"
+                        HeightRequest="80"
+                        Command="{Binding Lang.SetEstonianCommand}">
+                        <Button.ImageSource>
+                            <FileImageSource File="flagest.png" />
+                        </Button.ImageSource>
+                        <Button.Text>
+                            <Binding Path="EstonianButton" />
+                        </Button.Text>
+                    </Button>
+                </HorizontalStackLayout>
+                
+
+                <Button
+                    Text="Назад"
+                    Command="{Binding TagasiEsileheleCommand}"
+                    Margin="0,30,0,0">
+                    <Button.Shadow>
+                        <Shadow
+                            Radius="5"/>
+                    </Button.Shadow>
+                </Button>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>
