@@ -59,15 +59,23 @@ GraafikVesipiip — это приложение для управления ра
 
 ## 🧱 Архитектура проекта 
 GraafikVesipiip/
-│
+
 ├── Models/ — Tootaja, Vahetus, PaevaVahetus
+
 ├── ViewModels/ — StartPageViewModel, KuuKalenderViewModel, SettingsViewModel, TootajadViewModel, LanguageViewModel
+
 ├── Views/ — XAML-страницы: StartPage, KuuKalenderPage, TootajadPage, SettingsPage
+
 ├── Popups/ — PaevaVahetusedPopup, TootajaPopup, TootajaVahetusedPopup
+
 ├── Services/ — AppDb, IShiftService, ShiftService, ISettingService, SettingService, LanguageService, ITootajaService, TootajaService
+
 ├── Resources/ — Strings/, Styles/, Images/
+
 ├── App.xaml — темы, ресурсы, шрифты
+
 ├── AppShell.xaml — маршруты навигации
+
 └── MauiProgram.cs — регистрация сервисов и DI
 
 
@@ -98,4 +106,71 @@ Windows:
 ```bash
 dotnet build -t:run -f net8.0-windows10.0.19041.0
 ```
+
+---
+
+## 📝 Локализация и темы
+
+- Ресурсы: Resources/Strings/AppResources.resx, AppResources.ru.resx, AppResources.et.resx.
+- Команды переключения языка в LanguageViewModel:
+```csharp
+SetRussianCommand  => LanguageService.ChangeLanguage("ru");
+SetEstonianCommand => LanguageService.ChangeLanguage("et");
+```
+- Темы задаются через AppThemeBinding в стилях. Текущая тема хранится через SettingService и Preferences.
+
+---
+
+## 🧩 База данных (SQLite)
+
+Таблица Tootaja
+
+| Поле      | Тип     | Описание                 |
+| --------- | ------- | ------------------------ |
+| Id        | int     | Идентификатор сотрудника |
+| Name      | string  | Имя                      |
+| ColorHex  | string  | Цвет сотрудника в hex    |
+| ImagePath | string? | Путь к фото или null     |
+
+Таблица Vahetus
+
+| Поле      | Тип      | Описание             |
+| --------- | -------- | -------------------- |
+| Id        | int      | Идентификатор смены  |
+| TootajaId | int      | Ссылка на сотрудника |
+| Kuupaev   | DateTime | Дата смены (день)    |
+| Algus     | TimeSpan | Время начала         |
+| Lopp      | TimeSpan | Время конца          |
+
+Дополнительная бизнес-логика:
+- Обработка смен, пересекающих полночь.
+- Подсчёт «дыр» (gap) при отсутствии сотрудников или между сменами.
+- Сортировка и показ смен по дате.
+
+---
+
+## 🎨 Дизайн
+
+- Минимализм с кальянной атмосферой: фон с изображением hookah.png с прозрачностью.
+- Преобладание нейтральных цветов, крупных кнопок с скруглениями и тенями.
+- Popup-окна с округлёнными углами и собственной окраской под тему.
+- Цвет каждого сотрудника отображается в календаре как индикатор смены.
+
+---
+
+## 🧭 Навигация
+
+Проект использует Shell-навигацию:
+```xml
+<ShellContent Route="StartPage" ContentTemplate="{DataTemplate views:StartPage}" />
+<ShellContent Route="KuuKalenderPage" ContentTemplate="{DataTemplate views:KuuKalenderPage}" />
+<ShellContent Route="TootajadPage" ContentTemplate="{DataTemplate views:TootajadPage}" />
+<ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate views:SettingsPage}" />
+```
+
+Пример перехода из ViewModel:
+```csharp
+await Shell.Current.GoToAsync(nameof(KuuKalenderPage));
+```
+
 
